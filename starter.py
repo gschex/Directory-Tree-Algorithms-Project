@@ -18,17 +18,41 @@ def build_tree(files):
     """Build the tree from (path, size) pairs and return the root folder."""
     root = Node(files[0][0].split("/")[0])
     # TODO: for every (path, size): split the path at "/"
-    # TODO: walk down from the root, creating a folder Node for every missing folder (set parent and add it to children)
-    # TODO: create the file Node (is_file=True, size=size) in the last folder
-    raise NotImplementedError()
+    for path, size in files:
+        parts = path.split("/")
+
+        # TODO: walk down from the root, creating a folder Node for every missing folder (set parent and add it to children)
+        folder = root
+        for name in parts[1:-1]:
+            if name not in folder.children:
+                folder.children[name] = Node(name, parent=folder)
+            folder = folder.children[name]
+
+        # TODO: create the file Node (is_file=True, size=size) in the last folder
+        file_name = parts[-1]
+        folder.children[file_name] = Node(
+            file_name,
+            parent=folder,
+            is_file=True,
+            size=size,
+        )
+
     return root
 
 
 def print_tree(node, depth=0):
     """Print the tree below node (2 spaces per level, children sorted by name)."""
+    indent = "  " * depth
+
     # TODO: print the node: '  ' * depth + name + '/' for a folder, or name + ' (size KB)' for a file
-    # TODO: for a folder: call print_tree on every child (sorted by name) with depth + 1
-    raise NotImplementedError()
+    if node.is_file:
+        print(indent + node.name + f" ({node.size} KB)")
+    else:
+        print(indent + node.name + "/")
+
+        # TODO: for a folder: call print_tree on every child (sorted by name) with depth + 1
+        for child in sorted(node.children.values(), key=lambda child: child.name):
+            print_tree(child, depth + 1)
 
 
 # ============================================================================

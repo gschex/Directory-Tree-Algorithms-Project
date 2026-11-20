@@ -1,0 +1,6 @@
+# full path, size in KB
+Root/Folder1/File1.txt, 10
+Root/Folder1/File2.txt, 5
+Root/Folder1/SubFolder1/File3.txt, 20
+Root/Folder2/SubFolder1/SubFolder2/File4.txt, 15
+Root/Folder2/File5.pdf, 30
